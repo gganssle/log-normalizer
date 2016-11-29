@@ -47,11 +47,17 @@ for i in range(len(name)):
 		dat[i,j] = float(raw[j+headlen].split()[1])
 		dep[i,j] = float(raw[j+headlen].split()[0])
 	
-	maxy = np.ndarray.max(dat[i,:])
+	# normalize
+	minny = np.ndarray.min(dat[i,:])
 
-	for j in range(int(loglen[i])):
-		dat[i,j] = dat[i,j] / maxy
-
+	if (minny < 0):
+		dat[i,:] = dat[i,:] - minny
+		maxy = np.ndarray.max(dat[i,:])
+		dat[i,:] = dat[i,:] / maxy
+	else:
+		maxy = np.ndarray.max(dat[i,:])
+		dat[i,:] = dat[i,:] / maxy
+		
 	# [do something across the i (log) dimension]
 
 # write out data into the new files
